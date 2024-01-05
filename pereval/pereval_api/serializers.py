@@ -9,6 +9,22 @@ class UsersSerializer(serializers.HyperlinkedModelSerializer):
         model = Users
         fields = ['email', 'fam', 'name', 'otc', 'phone',]
 
+    def save(self, **kwargs):
+        self.is_valid()
+        user = Users.objects.filter(email=self.validated_data.get('email'))
+        if user.exists():
+            return user.first()
+        else:
+            new_user = Users.objects.create(
+                email=self.validated_data.get('email'),
+                fam=self.validated_data.get('fam'),
+                name=self.validated_data.get('name'),
+                otc=self.validated_data.get('otc'),
+                phone=self.validated_data.get('phone'),
+
+            )
+            return new_user
+
 
 class CoordsSerializer(serializers.ModelSerializer):
 
@@ -32,11 +48,11 @@ class ImagesSerializer(serializers.ModelSerializer):
 
 
 class PerevalAddedSerializer(WritableNestedModelSerializer):
-    user_id = UsersSerializer()
-    coords_id = CoordsSerializer()
-    level_id = LevelSerializer()
+    user = UsersSerializer()
+    coords = CoordsSerializer()
+    level = LevelSerializer()
     images = ImagesSerializer(many=True)
 
     class Meta:
         model = PerevalAdded
-        fields = ['beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user_id', 'coords_id', 'level_id', 'images']
+        fields = ['beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user', 'coords', 'level', 'images']
