@@ -55,4 +55,23 @@ class PerevalAddedSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = PerevalAdded
-        fields = ['beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user', 'coords', 'level', 'images']
+        fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user', 'coords', 'level', 'images']
+
+    def validate(self, data):
+        if self.instance is not None:
+            instance_user = self.instance.user
+            data_user = data.get('user')
+            user_fields_for_validation = [
+                instance_user.email != data_user['email'],
+                instance_user.fam != data_user['fam'],
+                instance_user.name != data_user['name'],
+                instance_user.otc != data_user['otc'],
+                instance_user.phone != data_user['phone'],
+            ]
+            if data_user is not None and any(user_fields_for_validation):
+                raise serializers.ValidationError(
+                    {
+                        'Отказано': 'Данные пользователя не могут быть изменены',
+                    }
+                )
+        return data
