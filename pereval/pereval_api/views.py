@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from pereval_api.models import *
-from pereval_api.serializers import *
+from .models import Users, Coords, Level, Images, PerevalAdded
+from .serializers import UsersSerializer, CoordsSerializer, LevelSerializer, ImagesSerializer, PerevalAddedSerializer
 
 
 class UserViewset(viewsets.ModelViewSet):
@@ -27,3 +27,4 @@ class ImagesViewset(viewsets.ModelViewSet):
 class PerevaAddedlViewset(viewsets.ModelViewSet):
     queryset = PerevalAdded.objects.all()
     serializer_class = PerevalAddedSerializer
+    filterset_fields = ('user__email', )
