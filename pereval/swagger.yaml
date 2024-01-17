@@ -1,0 +1,276 @@
+swagger: '2.0'
+info:
+  title: Snippets API
+  description: Test description
+  termsOfService: https://www.google.com/policies/terms/
+  contact:
+    email: contact@snippets.local
+  license:
+    name: BSD License
+  version: v1
+basePath: /
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /pereval/:
+    get:
+      operationId: pereval_list
+      description: ''
+      parameters:
+      - name: user__email
+        in: query
+        description: user__email
+        required: false
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PerevalAdded'
+      tags:
+      - pereval
+    post:
+      operationId: pereval_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PerevalAdded'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/PerevalAdded'
+      tags:
+      - pereval
+    parameters: []
+  /pereval/{id}/:
+    get:
+      operationId: pereval_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/PerevalAdded'
+      tags:
+      - pereval
+    put:
+      operationId: pereval_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PerevalAdded'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/PerevalAdded'
+      tags:
+      - pereval
+    patch:
+      operationId: pereval_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PerevalAdded'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/PerevalAdded'
+      tags:
+      - pereval
+    delete:
+      operationId: pereval_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - pereval
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this pereval added.
+      required: true
+      type: integer
+definitions:
+  Users:
+    required:
+    - email
+    - fam
+    - name
+    - otc
+    - phone
+    type: object
+    properties:
+      email:
+        title: Почта
+        type: string
+        format: email
+        maxLength: 255
+        minLength: 1
+      fam:
+        title: Фамилия
+        type: string
+        maxLength: 32
+        minLength: 1
+      name:
+        title: Имя
+        type: string
+        maxLength: 32
+        minLength: 1
+      otc:
+        title: Отчество
+        type: string
+        maxLength: 32
+        minLength: 1
+      phone:
+        title: Телефон
+        type: string
+        maxLength: 15
+        minLength: 1
+  Coords:
+    type: object
+    properties:
+      latitude:
+        title: Широта
+        type: number
+      longitude:
+        title: Долгота
+        type: number
+      height:
+        title: Высота
+        type: number
+  Level:
+    type: object
+    properties:
+      winter:
+        title: Зима
+        type: string
+        enum:
+        - ''
+        - 1A
+        - 1B
+        - 2А
+        - 2В
+        - 3А
+        - 3В
+      summer:
+        title: Лето
+        type: string
+        enum:
+        - ''
+        - 1A
+        - 1B
+        - 2А
+        - 2В
+        - 3А
+        - 3В
+      autumn:
+        title: Осень
+        type: string
+        enum:
+        - ''
+        - 1A
+        - 1B
+        - 2А
+        - 2В
+        - 3А
+        - 3В
+      spring:
+        title: Весна
+        type: string
+        enum:
+        - ''
+        - 1A
+        - 1B
+        - 2А
+        - 2В
+        - 3А
+        - 3В
+  Images:
+    type: object
+    properties:
+      data:
+        title: Ссылка на изображение
+        type: string
+        format: uri
+        maxLength: 200
+        x-nullable: true
+      title:
+        title: Название
+        type: string
+        maxLength: 255
+        minLength: 1
+        x-nullable: true
+  PerevalAdded:
+    required:
+    - title
+    - other_titles
+    - connect
+    - user
+    - coords
+    - level
+    - images
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      beauty_title:
+        title: Тип
+        type: string
+        maxLength: 16
+        minLength: 1
+      title:
+        title: Название
+        type: string
+        maxLength: 64
+        minLength: 1
+      other_titles:
+        title: Другое название
+        type: string
+        maxLength: 64
+        minLength: 1
+      connect:
+        title: Что соединяет
+        type: string
+        maxLength: 255
+        minLength: 1
+      add_time:
+        title: Add time
+        type: string
+        format: date-time
+        readOnly: true
+      user:
+        $ref: '#/definitions/Users'
+      coords:
+        $ref: '#/definitions/Coords'
+      level:
+        $ref: '#/definitions/Level'
+      images:
+        type: array
+        items:
+          $ref: '#/definitions/Images'
