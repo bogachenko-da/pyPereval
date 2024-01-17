@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pereval_api',
     'rest_framework',
-    'django_filters'
+    'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
     ]
+}
+
+SWAGGER_SETTINGS = {
+   'DEFAULT_INFO': 'pereval.urls.api_info',
 }
