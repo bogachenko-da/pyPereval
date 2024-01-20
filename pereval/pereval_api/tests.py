@@ -97,3 +97,11 @@ class PerevalAddedApiTestCase(APITestCase):
         self.assertEqual(serializer_data, response.data)
         self.assertEqual(len(serializer_data), 2)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_get_detail(self):
+        """test_get_detail(self) проверяет получение одной записи (перевала) по id, GET /pereval/<id>."""
+        url = reverse('pereval-detail', args=(self.pereval_1.id,))
+        response = self.client.get(url)
+        serializer_data = PerevalAddedSerializer(self.pereval_1).data
+        self.assertEqual(serializer_data, response.data)
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
