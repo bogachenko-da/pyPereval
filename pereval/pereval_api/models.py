@@ -53,6 +53,6 @@ class PerevalAdded(models.Model):
 
 
 class Images(models.Model):
-    data = models.URLField(verbose_name='Ссылка на изображение', blank=True, null=True)
+    data = models.TextField(verbose_name='Ссылка на изображение', blank=True, null=True)
     title = models.CharField(verbose_name='Название', max_length=255, blank=False, null=True)
     pereval = models.ForeignKey(PerevalAdded, on_delete=models.CASCADE, related_name="images")
