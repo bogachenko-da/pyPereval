@@ -105,3 +105,10 @@ class PerevalAddedApiTestCase(APITestCase):
         serializer_data = PerevalAddedSerializer(self.pereval_1).data
         self.assertEqual(serializer_data, response.data)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
+
+    def test_by_email(self):
+        """test_by_email(self) проверяет фильтрацию по email, GET /pereval/?user__email=<email>."""
+        email = self.pereval_1.user.email
+        url = f'/pereval/?user__email={email}'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
