@@ -88,3 +88,12 @@ class PerevalAddedApiTestCase(APITestCase):
             data="https://url_pereval_2_image_2",
             pereval=self.pereval_2
         )
+
+    def test_get_list(self):
+        """test_get_list(self) проверяет получение списка всех записей (перевалов), GET /pereval/."""
+        url = reverse('pereval-list')
+        response = self.client.get(url)
+        serializer_data = PerevalAddedSerializer([self.pereval_1, self.pereval_2], many=True).data
+        self.assertEqual(serializer_data, response.data)
+        self.assertEqual(len(serializer_data), 2)
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
